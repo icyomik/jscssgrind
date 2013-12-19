@@ -1,0 +1,22 @@
+
+/***【这个是大界面】***/
+/*DSG{{*/
+mainForm = ..win.form( bottom=263;max=false;right=567;border="dialog frame";text="简单的JS/CSS压缩器" )
+mainForm.add( 
+gb_filter={ bottom=72;color=0;text="显示目录下某类型的文件列表";left=8;top=8;font=LOGFONT( name='微软雅黑';h=-14 );z=2;right=560;edge=1;cls="groupbox" };
+btn_filter_dir={ bottom=64;color=0;right=400;left=336;top=32;font=LOGFONT( name='微软雅黑';h=-14 );z=10;text="路径";cls="button" };
+edit_filter_dir={ bottom=64;align="center";right=320;left=24;top=32;font=LOGFONT( name='微软雅黑';h=-14 );autohscroll=false;z=9;color=0;autovscroll=false;edge=1;cls="edit" };
+edit_compress_dir={ bottom=144;align="center";right=424;left=24;multiline=1;top=112;font=LOGFONT( name='微软雅黑';h=-14 );autohscroll=false;z=3;color=0;autovscroll=false;edge=1;cls="edit" };
+btn_filter_postfix={ bottom=64;color=0;right=544;left=488;top=32;font=LOGFONT( name='微软雅黑';h=-14 );z=12;text="过滤";cls="button" };
+edit_compress_filter={ bottom=192;align="center";right=424;left=24;top=160;font=LOGFONT( name='微软雅黑';h=-14 );autohscroll=false;z=6;color=0;autovscroll=false;edge=1;cls="edit" };
+btn_compress_generate={ bottom=240;color=0;right=544;left=440;top=208;font=LOGFONT( name='微软雅黑';h=-14 );z=8;text="生成合并";cls="button" };
+edit_compress_generate={ right=424;bottom=240;color=0;text="guessing.css";left=24;multiline=1;top=208;font=LOGFONT( name='微软雅黑';h=-14 );autohscroll=false;z=7;align="center";autovscroll=false;edge=1;cls="edit" };
+btn_compress_switch={ bottom=144;color=0;right=544;left=520;top=112;font=LOGFONT( name='微软雅黑';h=-14 );z=14;text="换";cls="button" };
+edit_compress_switch={ autohscroll=false;align="center";right=544;left=440;top=96;z=13;bottom=112;autovscroll=false;cls="edit";hide=1 };
+gb_compress={ bottom=256;color=0;text="压缩目录下的JS/CSS为单文件";left=8;top=88;font=LOGFONT( name='微软雅黑';h=-14 );z=1;right=560;edge=1;cls="groupbox" };
+btn_compress_filter={ bottom=192;color=0;right=544;left=440;top=160;font=LOGFONT( name='微软雅黑';h=-14 );z=5;text="忽略文件";cls="button" };
+btn_compress_dir={ bottom=144;color=0;right=520;left=440;top=112;font=LOGFONT( name='微软雅黑';h=-14 );z=4;text="压缩路径";cls="button" };
+edit_filter_postfix={ autohscroll=false;bottom=64;align="center";text="*.png";left=416;top=32;font=LOGFONT( name='微软雅黑';h=-14 );color=0;z=11;right=472;autovscroll=false;edge=1;cls="edit" }
+)
+/*}}*/
+

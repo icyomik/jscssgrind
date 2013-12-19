@@ -1,0 +1,50 @@
+import win.ui;
+import fsys;
+import fsys.dlg;
+import process;
+
+loadcode("/res/uilarge.aau")() //使用大UI的界面
+//loadcode("/res/uismall.aau")() //使用小UI的界面
+
+//建立同名目录，用于保存配置、压缩文件等
+global.swapfolder = string.replace(io._exepath,"\.\w*$","")
+if not( fsys.isDir(swapfolder) ){ fsys.createDir(swapfolder,true) }
+
+//程序控件配置（上次退出时的设置）
+import config;
+mainForm.bindConfig( config.widget,{
+	edit_filter_dir = "text";
+	edit_filter_postfix = "text";
+	edit_compress_dir = "text";
+	edit_compress_filter = "text";
+	edit_compress_generate = "text";
+	edit_compress_switch = "text";
+} );
+
+//加载自定义库
+import jscompressor; //JS压缩库
+import csscompressor; //CSS压缩库
+
+//过滤文件的代码
+loadcode("/res/filter.aau")()
+//压缩文件的代码
+loadcode("/res/compress.aau")()
+
+//切换上次和当前的配置信息
+mainForm.btn_compress_switch.oncommand = function(id,event){
+	var to_switch = {} //记录控件的当前值
+	to_switch['dir'] = mainForm.edit_compress_dir.text
+	to_switch['filter'] = mainForm.edit_compress_filter.text
+	to_switch['generate'] = mainForm.edit_compress_generate.text
+	
+	if(mainForm.edit_compress_switch.text==""){ mainForm.edit_compress_switch.text = "{dir='';filter='';generate=''}" }
+	var switch = eval(mainForm.edit_compress_switch.text) //把上次的值写到当前控件
+	mainForm.edit_compress_dir.text = switch['dir']
+	mainForm.edit_compress_filter.text = switch['filter']
+	mainForm.edit_compress_generate.text = switch['generate']
+	
+	mainForm.edit_compress_switch.text = table.tostring(to_switch) //保存刚刚记录的当前值
+}
+
+mainForm.show() 
+win.loopMessage(); 
