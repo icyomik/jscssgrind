@@ -1,12 +1,17 @@
+
 /Publish/**/*
 /.build/**/*
 
 *.*
+build_error_log.txt
+
 !/*.aproj
 !*.aau
 !.gitignore
 !/etc/**/*
+!/ext/**/*
 !/mix/**/*
 !/lib/**/*
 !/res/**/*
+
 *.jar
