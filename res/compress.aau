@@ -3,15 +3,16 @@
 mainForm.btn_compress_dir.oncommand = function(id,event){
 	mainForm.edit_compress_dir.text = fsys.dlg.opendir(tostring(mainForm.edit_compress_dir.text)) : mainForm.edit_compress_dir.text
 }
-//忽略选中的不需要压缩的文件
+
+//添加需要忽略or包含的文件
 mainForm.btn_compress_filter.oncommand = function(id,event){
-	var filetype = string.replace(io.splitpath(mainForm.edit_compress_generate.text).ext,"^\.","")
+	var filetype = string.replace(io.splitpath(mainForm.edit_compress_output.text).ext,"^\.","")
 	if("js" != filetype and "css" != filetype){
 		mainForm.msgbox("不被支持的目标文件类型："++tostring(filetype)++'\n'++"请确认后缀.js/.css是生成目标！")
 		return ; 
 	}
 	
-	var filelist = fsys.dlg.openEx("忽略[ "++filetype++" ]文件|*."++filetype++"|",,tostring(mainForm.edit_compress_dir.text))
+	var filelist = fsys.dlg.openEx("添加[ "++filetype++" ]文件|*."++filetype++"|",,tostring(mainForm.edit_compress_dir.text))
 	if(!filelist){
 		mainForm.edit_compress_filter.text = string.trim(mainForm.edit_compress_filter.text) //顺便清掉空格
 		return ; //没有选中任何文件
@@ -21,15 +22,16 @@ mainForm.btn_compress_filter.oncommand = function(id,event){
 		filelist[n] = io.splitpath(filefullpath).file //仅保留文件全名
 	}
 	
-	if(#mainForm.edit_compress_filter.text){ //保留原有的忽略列表
+	if(#mainForm.edit_compress_filter.text){ //保留原有的文件列表
 		mainForm.edit_compress_filter.text ++= (";" ++ string.join(filelist, ";"))
 	} else {
 		mainForm.edit_compress_filter.text = string.join(filelist, ";")
 	}
 }
+
 //压缩文件
 mainForm.btn_compress_generate.oncommand = function(id,event){
-	var filetype = string.replace(io.splitpath(mainForm.edit_compress_generate.text).ext,"^\.","")
+	var filetype = string.replace(io.splitpath(mainForm.edit_compress_output.text).ext,"^\.","")
 	if("js" != filetype and "css" != filetype){
 		mainForm.msgbox("不被支持的目标文件类型："++tostring(filetype)++'\n'++"请确认后缀.js/.css是生成目标！")
 		return ; 
@@ -41,20 +43,30 @@ mainForm.btn_compress_generate.oncommand = function(id,event){
 	
 	fsys.createDir(swapfolder++"/codepack",true) //删除并重建压缩JS、CSS的保存目录
 	
-	var ignorelist = string.split(mainForm.edit_compress_filter.text,";") //存放所有的要被忽略的文件全名
-	for(n,filename in ignorelist){
-		ignorelist[filename] = true //用于之后判断文件是否在忽略列表中
+	var filterlist = string.split(mainForm.edit_compress_filter.text,";") //存放所有的要被忽略or包含的文件全名
+	for(n,filename in filterlist){
+		filterlist[filename] = true //用于之后判断文件是否在过滤列表中
 	}
 	
 	var purifylist = {} //保存需要压缩净化的文件列表
-	fsys.enum( tostring(mainForm.edit_compress_dir.text), tostring("*."++filetype),
-		function(dir,filename,fullpath,findData){ 
-			if(filename and ignorelist[filename] != true){
-				//fsys.copy(fullpath,swapfolder++"/codepack/")
-				table.push(purifylist, fullpath)
+	if(mainForm.cbox_compress_flag.selIndex == 1){ //默认是忽略
+		fsys.enum( tostring(mainForm.edit_compress_dir.text), tostring("*."++filetype),
+			function(dir,filename,fullpath,findData){
+				if(filename and filterlist[filename] != true){ //这里决定是忽略文件
+					table.push(purifylist, fullpath)
+				}
 			}
-		}
-	);
+		);
+	} else { //其他是包含
+		fsys.enum( tostring(mainForm.edit_compress_dir.text), tostring("*."++filetype),
+			function(dir,filename,fullpath,findData){
+				if(filename and filterlist[filename] == true){ //这里决定是包含文件
+					table.push(purifylist, fullpath)
+					//fsys.copy(fullpath,swapfolder++"/codepack/")
+				}
+			}
+		);
+	}
 	
 	var compress_content = "" //保存压缩成单文件后的最终内容
 	if("css" == filetype){
@@ -66,8 +78,15 @@ mainForm.btn_compress_generate.oncommand = function(id,event){
 		return ; 
 	}
 	
-	var save2path = ..fsys.dlg.save(,,mainForm.edit_compress_dir.text,,,mainForm.edit_compress_generate.text)
-	if(#save2path and string.save(save2path,compress_content)){
-		process.execute( save2path ) //打开压缩后的代码文件
+	var save2path = ""; //输出的脚本路径
+	if( #io.splitpath(mainForm.edit_compress_output.text).dir ){
+		save2path = tostring(mainForm.edit_compress_output.text)
+	} else {
+		save2path = ..fsys.dlg.save(,,mainForm.edit_compress_dir.text,,,mainForm.edit_compress_output.text) //手动选择路径
+		mainForm.edit_compress_output.text = tostring(save2path) //记录选择的路径，下次直接输出
+	}
+	if ( #save2path ) {
+		string.save(save2path,compress_content) //写入压缩后的代码
+		//sleep(1); process.execute( save2path ) //打开压缩后的文件
 	}
 }

@@ -7,7 +7,7 @@ table = ..table
 string = ..string
 process = ..process
 
-var swapfolder = global.swapfolder
+var swapfolder = global.swapfolder //配置目录
 
 closure_pack = function(purifylist){
 	var packcommand = {} //保存压缩用的命令
@@ -71,13 +71,22 @@ shrinksafe_pack = function(purifylist){
 //合并压缩后的单文件
 mergeCodeFile = function( filetype ){
 	var compress_content = "" //保存压缩成单文件后的最终内容
-	fsys.enum( swapfolder++"/codepack/", tostring("*."++filetype),
-		function(dir,filename,fullpath,findData){ 
-			if(filename){
-				compress_content ++= (string.load(fullpath) ++ '\n')
+	
+	if( global.mainForm.cbox_compress_flag.selIndex==1 ){ //「忽略」操作，不用管顺序
+		fsys.enum( swapfolder++"/codepack/", tostring("*."++filetype),
+			function(dir,filename,fullpath,findData){ 
+				if(filename){
+					compress_content ++= (string.load(fullpath) ++ '\n')
+				}
 			}
+		);
+	} else { //「包含」操作，需要按顺序合并
+		for(n,jsfile in (string.split(global.mainForm.edit_compress_filter.text,";"))){
+			if(string.trim(jsfile)==""){break} //空文件名（连续的分号）则跳过
+			compress_content ++= ( string.load(swapfolder++"/codepack/"++jsfile) ++ '\n')
 		}
-	);
+	}
+	
 	compress_content = string.replace(compress_content,'\r','')
 	compress_content = string.replace(compress_content,'\n\n+','\n')
 	//import console; console.varDump(compress_content)
@@ -87,24 +96,14 @@ mergeCodeFile = function( filetype ){
 
 
 //处理用于压缩JS的库
-if( io.exist(io._exedir++"/js.jar") and not(io.exist(swapfolder++"/js.jar")) ){
-	fsys.copy(
-		io._exedir++"/js.jar",
-		swapfolder++"/js.jar"
-	) //拷贝主目录下的压缩库到交换目录
-}
-if( io.exist(io._exedir++"/closure.jar") and not(io.exist(swapfolder++"/closure.jar")) ){
-	fsys.copy(
-		io._exedir++"/closure.jar",
-		swapfolder++"/closure.jar"
-	) //拷贝主目录下的压缩库到交换目录
-}
+/*
 if not( io.exist(swapfolder++"/shrinksafe.jar") ){
 	string.save(
 		swapfolder++"/shrinksafe.jar",
 		string.load("/res/shrinksafe.jar")
 	) //释放SHRINKSAFE库
 }
+*/
 if not( io.exist(swapfolder++"/jsmin.exe") ){
 	string.save(
 		swapfolder++"/jsmin.exe",
@@ -113,10 +112,10 @@ if not( io.exist(swapfolder++"/jsmin.exe") ){
 }
 
 //判断需要用到的库
-if( io.exist(swapfolder++"/js.jar") ){
-	pack = shrinksafe_pack
-} elseif (io.exist(swapfolder++"/closure.jar")) {
+if( io.exist(swapfolder++"/closure.jar") ){
 	pack = closure_pack
+} elseif (io.exist(swapfolder++"/shrinksafe.jar")) {
+	pack = shrinksafe_pack
 } else {
 	pack = jsmin_pack //使用JSMIN的压缩方式
 }

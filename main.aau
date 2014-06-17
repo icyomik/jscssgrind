@@ -2,49 +2,66 @@ import win.ui;
 import fsys;
 import fsys.dlg;
 import process;
-
-loadcode("/res/uilarge.aau")() //使用大UI的界面
-//loadcode("/res/uismall.aau")() //使用小UI的界面
+/*DSG{{*/
+mainForm = ..win.form(text="简单的JS/CSS压缩器";right=567;bottom=431;border="dialog frame";max=false)
+mainForm.add(
+btn_compress_dir={cls="button";text="压缩路径";left=448;top=120;right=544;bottom=152;font=LOGFONT( name='微软雅黑';h=-16 );z=4};
+btn_compress_filter={cls="button";text="添加文件…";left=448;top=240;right=544;bottom=272;font=LOGFONT( name='微软雅黑';h=-16 );z=5};
+btn_compress_generate={cls="button";text="生成合并";left=448;top=336;right=544;bottom=408;font=LOGFONT( name='微软雅黑';h=-16 );z=8};
+btn_filter_dir={cls="button";text="路径";left=320;top=32;right=368;bottom=64;font=LOGFONT( name='微软雅黑';h=-14 );z=10};
+btn_filter_postfix={cls="button";text="生成过滤";left=448;top=32;right=544;bottom=64;font=LOGFONT( name='微软雅黑';h=-16 );z=12};
+cbox_compress_config={cls="combobox";left=312;top=384;right=432;bottom=408;edge=1;font=LOGFONT( name='微软雅黑';h=-16 );items={};mode="dropdownlist";z=14};
+cbox_compress_flag={cls="combobox";left=448;top=192;right=544;bottom=212;edge=1;font=LOGFONT( name='微软雅黑';h=-16 );items={"忽略左边";"包含左边"};mode="dropdownlist";z=13};
+edit_compress_dir={cls="edit";left=24;top=120;right=432;bottom=152;align="center";autohscroll=false;autovscroll=false;edge=1;font=LOGFONT( name='微软雅黑';h=-14 );hidesel=1;z=3};
+edit_compress_filter={cls="edit";left=24;top=168;right=432;bottom=320;align="center";autohscroll=false;edge=1;font=LOGFONT( name='微软雅黑';h=-14 );hidesel=1;multiline=1;z=6};
+edit_compress_output={cls="edit";text="guessing.css";left=24;top=336;right=432;bottom=368;align="center";autohscroll=false;autovscroll=false;edge=1;font=LOGFONT( name='微软雅黑';h=-14 );hidesel=1;z=7};
+edit_filter_dir={cls="edit";left=24;top=32;right=312;bottom=64;align="center";autohscroll=false;autovscroll=false;edge=1;font=LOGFONT( name='微软雅黑';h=-14 );hidesel=1;z=9};
+edit_filter_postfix={cls="edit";text="*.png";left=376;top=32;right=432;bottom=64;align="center";autohscroll=false;autovscroll=false;edge=1;font=LOGFONT( name='微软雅黑';h=-14 );z=11};
+gb_compress={cls="groupbox";text="压缩目录下的JS/CSS并合并为单文件";left=8;top=88;right=560;bottom=424;edge=1;font=LOGFONT( name='微软雅黑';h=-14 );z=1};
+gb_filter={cls="groupbox";text="显示目录下某类型的文件列表";left=8;top=8;right=560;bottom=80;edge=1;font=LOGFONT( name='微软雅黑';h=-14 );z=2};
+static={cls="static";text="配置文件：config.txt；选择配置：";left=24;top=384;right=304;bottom=416;align="center";font=LOGFONT( name='微软雅黑';h=-16 );transparent=1;z=15}
+)
+/*}}*/
 
 //建立同名目录，用于保存配置、压缩文件等
 global.swapfolder = string.replace(io._exepath,"\.\w*$","")
 if not( fsys.isDir(swapfolder) ){ fsys.createDir(swapfolder,true) }
 
+//生成配置文件
+if not(io.exist(swapfolder++"\config.txt")){
+	string.save(swapfolder++"\config.txt", string.load("\res\config.txt"))
+}
+
+//初始化配置文件
+var compress_config = eval( string.load(swapfolder++"\config.txt") )
+mainForm.cbox_compress_config.items = (function(){x={};for(k,v in compress_config){table.push(x,k)};return x})() //取配置名称
+mainForm.cbox_compress_config.oncommand = function(id,event){
+	if(event == 0x1/*_CBN_SELCHANGE*/){
+		var cfgname = mainForm.cbox_compress_config.text;
+		mainForm.edit_compress_dir.text = compress_config[cfgname]["compress_path"];
+		mainForm.edit_compress_output.text = compress_config[cfgname]["output_script"];
+		mainForm.edit_compress_filter.text = compress_config[cfgname]["filter_file"];
+		mainForm.cbox_compress_flag.selIndex = tonumber(compress_config[cfgname]["filter_flag"]);
+	}
+}
+
+import jscompressor; //JS压缩库
+import csscompressor; //CSS压缩库
+loadcode("/res/filter.aau")() //过滤文件的代码
+loadcode("/res/compress.aau")() //压缩文件的代码
+
 //程序控件配置（上次退出时的设置）
+mainForm.cbox_compress_flag.selIndex=1 //默认忽略
 import config;
 mainForm.bindConfig( config.widget,{
 	edit_filter_dir = "text";
 	edit_filter_postfix = "text";
 	edit_compress_dir = "text";
 	edit_compress_filter = "text";
-	edit_compress_generate = "text";
-	edit_compress_switch = "text";
+	edit_compress_output = "text";
+	cbox_compress_flag = "selIndex";
+	cbox_compress_config = "selIndex";
 } );
-
-//加载自定义库
-import jscompressor; //JS压缩库
-import csscompressor; //CSS压缩库
-
-//过滤文件的代码
-loadcode("/res/filter.aau")()
-//压缩文件的代码
-loadcode("/res/compress.aau")()
-
-//切换上次和当前的配置信息
-mainForm.btn_compress_switch.oncommand = function(id,event){
-	var to_switch = {} //记录控件的当前值
-	to_switch['dir'] = mainForm.edit_compress_dir.text
-	to_switch['filter'] = mainForm.edit_compress_filter.text
-	to_switch['generate'] = mainForm.edit_compress_generate.text
-	
-	if(mainForm.edit_compress_switch.text==""){ mainForm.edit_compress_switch.text = "{dir='';filter='';generate=''}" }
-	var switch = eval(mainForm.edit_compress_switch.text) //把上次的值写到当前控件
-	mainForm.edit_compress_dir.text = switch['dir']
-	mainForm.edit_compress_filter.text = switch['filter']
-	mainForm.edit_compress_generate.text = switch['generate']
-	
-	mainForm.edit_compress_switch.text = table.tostring(to_switch) //保存刚刚记录的当前值
-}
 
 mainForm.show() 
 win.loopMessage(); 

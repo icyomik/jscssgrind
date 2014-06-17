@@ -3,6 +3,7 @@
 mainForm.btn_filter_dir.oncommand = function(id,event){
 	mainForm.edit_filter_dir.text = fsys.dlg.opendir(tostring(mainForm.edit_filter_dir.text)) : mainForm.edit_filter_dir.text
 }
+
 //显示过滤得到的内容
 mainForm.btn_filter_postfix.oncommand = function(id,event){
 	if( !fsys.isDir(mainForm.edit_filter_dir.text) ){

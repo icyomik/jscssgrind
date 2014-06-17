@@ -1,0 +1,14 @@
+{
+	一起猜猜 = {
+		compress_path = "D:\JTWO\JS";
+		output_script = "base.min.js";
+		filter_flag = "1"; // 1忽略; 2包含
+		filter_file = "nil.js;none.js;null.js";
+	};
+	救救那宠物 = {
+		compress_path = "E:\DEVELOP";
+		output_script = "E:\flash.css";
+		filter_flag = "2"; // 1忽略; 2包含
+		filter_file = "main.css;base.css;build.css";
+	};
+}

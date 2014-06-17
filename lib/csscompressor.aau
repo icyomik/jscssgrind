@@ -26,22 +26,33 @@ pack = function(purifylist){
 		string.save(
 			swapfolder++"/codepack/"++filename, /*输出到目标文件*/
 			purifier( string.load(filepath) ) /*读取源文件并压缩*/
-		) //保存到交换目录中
+		) //保存到临时目录中
 	}
 	return mergeCodeFile("css") //调用返回函数
 }
 
+
 mergeCodeFile = function( filetype ){
 	var compress_content = "" //保存压缩成单文件后的最终内容
-	fsys.enum( swapfolder++"/codepack/", tostring("*."++filetype),
-		function(dir,filename,fullpath,findData){ 
-			if(filename){
-				compress_content ++= (string.load(fullpath) ++ '\n')
+	
+	if( global.mainForm.cbox_compress_flag.selIndex==1 ){ //「忽略」操作，不用管顺序
+		fsys.enum( swapfolder++"/codepack/", tostring("*."++filetype),
+			function(dir,filename,fullpath,findData){ 
+				if(filename){
+					compress_content ++= (string.load(fullpath) ++ '\n')
+				}
 			}
+		);
+	} else { //「包含」操作，需要按顺序合并
+		for(n,cssfile in (string.split(global.mainForm.edit_compress_filter.text,";"))){
+			if(string.trim(cssfile)==""){break} //空文件名（连续的分号）则跳过
+			compress_content ++= ( string.load(swapfolder++"/codepack/"++cssfile) ++ '\n')
 		}
-	);
+	}
+	
 	compress_content = string.replace(compress_content,'\r','')
 	compress_content = string.replace(compress_content,'\n\n+','\n')
 	//import console; console.varDump(compress_content)
 	return compress_content; //返回最终压缩内容
 }
+

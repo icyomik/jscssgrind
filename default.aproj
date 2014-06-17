@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="gb2312"?>
-<project ver="2.8" name="JsCssGrind" libEmbed="true" icon="etc\@logo.ico" ProductName="" InternalName="" FileDescription="简单的JS/CSS压缩器" FileVersion="0.0.0.188" ProductVersion="0.0.0.188" CompanyName="" LegalCopyright="BY JTWO" ui="win" output="JsCssGrind.exe" publishDir="/Publish/">
+<project ver="2.8" name="JsCssGrind" libEmbed="true" icon="etc\@logo.ico" ProductName="" InternalName="" FileDescription="简单的JS/CSS压缩器" FileVersion="0.0.1.2" ProductVersion="0.0.1.2" CompanyName="" LegalCopyright="BY JTWO" ui="win" output="JsCssGrind.exe" publishDir="/Publish/">
 	<file name="main.aau" path="main.aau"/>
 	<folder name="资源文件" path="res" embed="true">
-		<file name="uismall.aau" path="res\uismall.aau" comment="res\uismall.aau"/>
-		<file name="uilarge.aau" path="res\uilarge.aau" comment="res\uilarge.aau"/>
 		<file name="shrinksafe.jar" path="res\shrinksafe.jar" comment="res\shrinksafe.jar"/>
 		<file name="jsmin.exe" path="res\jsmin.exe" comment="res\jsmin.exe"/>
 		<file name="filter.aau" path="res\filter.aau" comment="res\filter.aau"/>
+		<file name="config.txt" path="res\config.txt" comment="res\config.txt"/>
 		<file name="compress.aau" path="res\compress.aau" comment="res\compress.aau"/>
 	</folder>
 </project>
