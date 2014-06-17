@@ -5,21 +5,21 @@ import process;
 /*DSG{{*/
 mainForm = ..win.form(text="简单的JS/CSS压缩器";right=567;bottom=431;border="dialog frame";max=false)
 mainForm.add(
-btn_compress_dir={cls="button";text="压缩路径";left=448;top=120;right=544;bottom=152;font=LOGFONT( name='微软雅黑';h=-16 );z=4};
-btn_compress_filter={cls="button";text="添加文件…";left=448;top=240;right=544;bottom=272;font=LOGFONT( name='微软雅黑';h=-16 );z=5};
+btn_compress_dir={cls="button";text="压缩路径…";left=448;top=120;right=544;bottom=152;font=LOGFONT( name='微软雅黑';h=-16 );z=4};
+btn_compress_filter={cls="button";text="添加文件…";left=448;top=248;right=544;bottom=280;font=LOGFONT( name='微软雅黑';h=-16 );z=5};
 btn_compress_generate={cls="button";text="生成合并";left=448;top=336;right=544;bottom=408;font=LOGFONT( name='微软雅黑';h=-16 );z=8};
-btn_filter_dir={cls="button";text="路径";left=320;top=32;right=368;bottom=64;font=LOGFONT( name='微软雅黑';h=-14 );z=10};
+btn_filter_dir={cls="button";text="路径";left=320;top=32;right=368;bottom=64;font=LOGFONT( name='微软雅黑';h=-16 );z=10};
 btn_filter_postfix={cls="button";text="生成过滤";left=448;top=32;right=544;bottom=64;font=LOGFONT( name='微软雅黑';h=-16 );z=12};
-cbox_compress_config={cls="combobox";left=312;top=384;right=432;bottom=408;edge=1;font=LOGFONT( name='微软雅黑';h=-16 );items={};mode="dropdownlist";z=14};
+cbox_compress_config={cls="combobox";left=304;top=384;right=432;bottom=408;edge=1;font=LOGFONT( name='幼圆';h=-16 );items={};mode="dropdownlist";z=14};
 cbox_compress_flag={cls="combobox";left=448;top=192;right=544;bottom=212;edge=1;font=LOGFONT( name='微软雅黑';h=-16 );items={"忽略左边";"包含左边"};mode="dropdownlist";z=13};
 edit_compress_dir={cls="edit";left=24;top=120;right=432;bottom=152;align="center";autohscroll=false;autovscroll=false;edge=1;font=LOGFONT( name='微软雅黑';h=-14 );hidesel=1;z=3};
-edit_compress_filter={cls="edit";left=24;top=168;right=432;bottom=320;align="center";autohscroll=false;edge=1;font=LOGFONT( name='微软雅黑';h=-14 );hidesel=1;multiline=1;z=6};
+edit_compress_filter={cls="edit";left=24;top=168;right=432;bottom=320;align="center";autohscroll=false;edge=1;font=LOGFONT( name='微软雅黑';h=-14 );hidesel=1;multiline=1;vscroll=1;z=6};
 edit_compress_output={cls="edit";text="guessing.css";left=24;top=336;right=432;bottom=368;align="center";autohscroll=false;autovscroll=false;edge=1;font=LOGFONT( name='微软雅黑';h=-14 );hidesel=1;z=7};
 edit_filter_dir={cls="edit";left=24;top=32;right=312;bottom=64;align="center";autohscroll=false;autovscroll=false;edge=1;font=LOGFONT( name='微软雅黑';h=-14 );hidesel=1;z=9};
-edit_filter_postfix={cls="edit";text="*.png";left=376;top=32;right=432;bottom=64;align="center";autohscroll=false;autovscroll=false;edge=1;font=LOGFONT( name='微软雅黑';h=-14 );z=11};
+edit_filter_postfix={cls="edit";text="*.png";left=376;top=32;right=432;bottom=64;align="center";autohscroll=false;autovscroll=false;edge=1;font=LOGFONT( name='微软雅黑';h=-16 );z=11};
 gb_compress={cls="groupbox";text="压缩目录下的JS/CSS并合并为单文件";left=8;top=88;right=560;bottom=424;edge=1;font=LOGFONT( name='微软雅黑';h=-14 );z=1};
 gb_filter={cls="groupbox";text="显示目录下某类型的文件列表";left=8;top=8;right=560;bottom=80;edge=1;font=LOGFONT( name='微软雅黑';h=-14 );z=2};
-static={cls="static";text="配置文件：config.txt；选择配置：";left=24;top=384;right=304;bottom=416;align="center";font=LOGFONT( name='微软雅黑';h=-16 );transparent=1;z=15}
+static={cls="static";text="配置文件：config.txt；选择项目：";left=24;top=384;right=296;bottom=416;align="center";font=LOGFONT( name='微软雅黑';h=-16 );transparent=1;z=15}
 )
 /*}}*/
 
