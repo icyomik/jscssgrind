@@ -114,7 +114,7 @@ if not( io.exist(swapfolder++"/jsmin.exe") ){
 //判断需要用到的库
 if( io.exist(swapfolder++"/closure.jar") ){
 	pack = closure_pack
-} elseif (io.exist(swapfolder++"/shrinksafe.jar")) {
+} elseif (io.exist(swapfolder++"/shrinksafe.jar") and io.exist(swapfolder++"/js.jar")) {
 	pack = shrinksafe_pack
 } else {
 	pack = jsmin_pack //使用JSMIN的压缩方式
