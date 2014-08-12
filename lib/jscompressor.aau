@@ -88,14 +88,12 @@ mergeCodeFile = function( filetype ){
 	
 	compress_content = string.replace(compress_content,'\r','')
 	compress_content = string.replace(compress_content,'\n\n+','\n')
-	if(io.exist(swapfolder++"/uglifyjs.cmd")){
-		//调用本地NodeJS的UglifyJS程序
-	} elseif (io.exist(swapfolder++"/uglifyjs.web")) { //使用在线混淆
+	if (io.exist(swapfolder++"/uglifyjs.web")) { //使用在线混淆
 		io.open()
 		io.print('\n\t发现UglifyJS的在线调用接口，正在压缩混淆...')
 		io.print('\t（如果接口调用完成，则本窗口会自动关闭）\n')
 		import uglifyjs;
-		compress_content = uglifyjs.web.mixfc( compress_content )
+		compress_content = uglifyjs.mixfc( compress_content )
 		io.close()
 	}
 	return compress_content; //返回最终压缩内容

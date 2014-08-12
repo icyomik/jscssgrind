@@ -10,7 +10,7 @@ btn_compress_filter={cls="button";text="添加文件…";left=448;top=248;right=544;b
 btn_compress_generate={cls="button";text="生成合并";left=448;top=336;right=544;bottom=408;font=LOGFONT( name='微软雅黑';h=-16 );z=8};
 btn_filter_dir={cls="button";text="路径";left=320;top=32;right=368;bottom=64;font=LOGFONT( name='微软雅黑';h=-16 );z=10};
 btn_filter_postfix={cls="button";text="生成过滤";left=448;top=32;right=544;bottom=64;font=LOGFONT( name='微软雅黑';h=-16 );z=12};
-cbox_compress_config={cls="combobox";left=304;top=384;right=432;bottom=408;edge=1;font=LOGFONT( name='幼圆';h=-16 );items={};mode="dropdownlist";z=14};
+cbox_compress_config={cls="combobox";left=304;top=384;right=432;bottom=408;edge=1;font=LOGFONT( name='幼圆';h=-16 );items={};mode="dropdown";z=14};
 cbox_compress_flag={cls="combobox";left=448;top=192;right=544;bottom=212;edge=1;font=LOGFONT( name='微软雅黑';h=-16 );items={"忽略左边";"包含左边"};mode="dropdownlist";z=13};
 edit_compress_dir={cls="edit";left=24;top=120;right=432;bottom=152;align="center";autohscroll=false;autovscroll=false;edge=1;font=LOGFONT( name='微软雅黑';h=-14 );hidesel=1;z=3};
 edit_compress_filter={cls="edit";left=24;top=168;right=432;bottom=320;align="center";autohscroll=false;edge=1;font=LOGFONT( name='微软雅黑';h=-14 );hidesel=1;multiline=1;vscroll=1;z=6};
@@ -33,16 +33,18 @@ if not(io.exist(swapfolder++"\config.txt")){
 }
 
 //初始化配置文件
-var compress_config = eval( string.load(swapfolder++"\config.txt") )
+compress_config = eval( string.load(swapfolder++"\config.txt") )
 mainForm.cbox_compress_config.items = (function(){x={};for(k,v in compress_config){table.push(x,k)};return x})() //取配置名称
+cboxCompressConfigChange = function(){
+	mainForm.cbox_compress_config.selIndex := 1
+	var cfgname = mainForm.cbox_compress_config.selText;
+	mainForm.edit_compress_dir.text = compress_config[cfgname]["compress_path"];
+	mainForm.edit_compress_output.text = compress_config[cfgname]["output_script"];
+	mainForm.edit_compress_filter.text = compress_config[cfgname]["filter_file"];
+	mainForm.cbox_compress_flag.selIndex = tonumber(compress_config[cfgname]["filter_flag"]);
+}
 mainForm.cbox_compress_config.oncommand = function(id,event){
-	if(event == 0x1/*_CBN_SELCHANGE*/){
-		var cfgname = mainForm.cbox_compress_config.text;
-		mainForm.edit_compress_dir.text = compress_config[cfgname]["compress_path"];
-		mainForm.edit_compress_output.text = compress_config[cfgname]["output_script"];
-		mainForm.edit_compress_filter.text = compress_config[cfgname]["filter_file"];
-		mainForm.cbox_compress_flag.selIndex = tonumber(compress_config[cfgname]["filter_flag"]);
-	}
+	if(event==0x1/*_CBN_SELCHANGE*/){ cboxCompressConfigChange() } //刷新配置
 }
 
 import jscompressor; //JS压缩库
@@ -51,7 +53,7 @@ loadcode("/res/filter.aau")() //过滤文件的代码
 loadcode("/res/compress.aau")() //压缩文件的代码
 
 //程序控件配置（上次退出时的设置）
-mainForm.cbox_compress_flag.selIndex=1 //默认忽略
+mainForm.cbox_compress_flag.selIndex = 1 // 1忽略; 2包含
 import config;
 mainForm.bindConfig( config.widget,{
 	edit_filter_dir = "text";

@@ -15,3 +15,4 @@ build_error_log.txt
 !/res/**/*
 
 *.jar
+*.7z
