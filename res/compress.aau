@@ -23,34 +23,34 @@ mainForm.btn_compress_filter.oncommand = function(id,event){
 	}
 	
 	if(#mainForm.edit_compress_filter.text){ //保留原有的文件列表
-		mainForm.edit_compress_filter.text ++= (";" ++ string.join(filelist, ";"))
+		mainForm.edit_compress_filter.text ++= ("|" ++ string.join(filelist, "|"))
 	} else {
-		mainForm.edit_compress_filter.text = string.join(filelist, ";")
+		mainForm.edit_compress_filter.text = string.join(filelist, "|")
 	}
 }
 
-//压缩文件
-mainForm.btn_compress_generate.oncommand = function(id,event){
-	var filetype = string.replace(io.splitpath(mainForm.edit_compress_output.text).ext,"^\.","")
+//压缩文件的主函数
+compress_generate = function(edit_compress_dir,edit_compress_filter,edit_compress_output,combo_compress_flag,isArrayConfig=false){
+	var filetype = string.replace(io.splitpath(edit_compress_output).ext,"^\.","")
 	if("js" != filetype and "css" != filetype){
 		mainForm.msgbox("不被支持的目标文件类型："++tostring(filetype)++'\n'++"请确认后缀.js/.css是生成目标！")
 		return ; 
 	}
-	if( !fsys.isDir(mainForm.edit_compress_dir.text) ){
-		mainForm.msgbox("没有发现有效路径！")
+	if( !fsys.isDir(edit_compress_dir) ){
+		mainForm.msgbox('没有发现有效路径：\n'++edit_compress_dir)
 		return ; 
 	}
 	
 	fsys.createDir(swapfolder++"/codepack",true) //删除并重建压缩JS、CSS的保存目录
 	
-	var filterlist = string.split(mainForm.edit_compress_filter.text,";") //存放所有的要被忽略or包含的文件全名
+	var filterlist = string.split(edit_compress_filter,"|") //存放所有的要被忽略or包含的文件全名
 	for(n,filename in filterlist){
 		filterlist[filename] = true //用于之后判断文件是否在过滤列表中
 	}
 	
 	var purifylist = {} //保存需要压缩净化的文件列表
-	if(mainForm.cbox_compress_flag.selIndex == 1){ //默认是忽略
-		fsys.enum( tostring(mainForm.edit_compress_dir.text), tostring("*."++filetype),
+	if(combo_compress_flag == 1){ //默认是忽略
+		fsys.enum( tostring(edit_compress_dir), tostring("*."++filetype),
 			function(dir,filename,fullpath,findData){
 				if(filename and filterlist[filename] != true){ //这里决定是忽略文件
 					table.push(purifylist, fullpath)
@@ -58,7 +58,7 @@ mainForm.btn_compress_generate.oncommand = function(id,event){
 			}
 		);
 	} else { //其他是包含
-		fsys.enum( tostring(mainForm.edit_compress_dir.text), tostring("*."++filetype),
+		fsys.enum( tostring(edit_compress_dir), tostring("*."++filetype),
 			function(dir,filename,fullpath,findData){
 				if(filename and filterlist[filename] == true){ //这里决定是包含文件
 					table.push(purifylist, fullpath)
@@ -79,11 +79,11 @@ mainForm.btn_compress_generate.oncommand = function(id,event){
 	}
 	
 	var save2path = ""; //输出的脚本路径
-	if( #io.splitpath(mainForm.edit_compress_output.text).dir ){
-		save2path = tostring(mainForm.edit_compress_output.text)
+	if( #io.splitpath(edit_compress_output).dir ){
+		save2path = tostring(edit_compress_output)
 	} else {
-		save2path = ..fsys.dlg.save(,,mainForm.edit_compress_dir.text,,,mainForm.edit_compress_output.text) //手动选择路径
-		mainForm.edit_compress_output.text = tostring(save2path) //记录选择的路径，下次直接输出
+		save2path = ..fsys.dlg.save(,,edit_compress_dir,,,edit_compress_output) //手动选择路径
+		if not(isArrayConfig){ mainForm.edit_compress_output.text = tostring(save2path) } //记录选择的路径，下次直接输出
 	}
 	if ( #save2path ) {
 		string.save(save2path,compress_content) //写入压缩后的代码
@@ -94,7 +94,7 @@ mainForm.btn_compress_generate.oncommand = function(id,event){
 				io.open()
 				io.print('\n\t发现UglifyJS的本地调用接口，正在压缩混淆...')
 				io.print('\t（如果接口调用完成，则本窗口会自动关闭）\n')
-				sleep(1*1000) //等待文件写入完成
+				sleep(0.5*1000) //等待文件写入完成
 				execute(string.join({"uglifyjs";save2path;"-m -o";save2path}, " "))
 				io.close()
 			}
@@ -102,15 +102,64 @@ mainForm.btn_compress_generate.oncommand = function(id,event){
 	}
 	
 	//记录当前的项目配置
-	if(0 == #mainForm.cbox_compress_config.text){
+	if(0==#mainForm.combo_compress_config.text and not(isArrayConfig)){
 		mainForm.msgbox("没有项目名称！配置不会保存！"); return ;
-	} else {
-		compress_config[mainForm.cbox_compress_config.text] = {
-			compress_path = mainForm.edit_compress_dir.text;
-			output_script = mainForm.edit_compress_output.text;
-			filter_flag = mainForm.cbox_compress_flag.selIndex;
-			filter_file = mainForm.edit_compress_filter.text;
+	} elseif(not(isArrayConfig)) {
+		compress_config[mainForm.combo_compress_config.text] = {
+			compress_path = edit_compress_dir;
+			output_script = edit_compress_output;
+			filter_flag = combo_compress_flag;
+			filter_file = edit_compress_filter;
 		}
 		string.save(swapfolder++"\config.txt", table.tostring(compress_config))
+		mainForm.combo_compress_config.items = (function(){x={};for(k,v in compress_config){table.push(x,k)};table.sort(x);return x})() //取配置名称
 	}
 }
+
+//压缩文件
+mainForm.btn_compress_generate.oncommand = function(id,event){
+	var call_compress_generate = function(){ //调用生成合并函数
+		var edit_compress_dir = string.trim(mainForm.edit_compress_dir.text)
+		var edit_compress_filter = string.trim(mainForm.edit_compress_filter.text)
+		var edit_compress_output = string.trim(mainForm.edit_compress_output.text)
+		
+		if( string.startWith(edit_compress_dir,"{") and string.endWith(edit_compress_dir,"}") ){
+			var edit_compress_dir_set = eval(edit_compress_dir) //转为Table
+			
+			if( string.startWith(edit_compress_filter,"{") and string.endWith(edit_compress_filter,"}") ){
+				edit_compress_filter_set = eval(edit_compress_filter) //转为Table
+			} else {
+				edit_compress_filter_set = eval('{"'++edit_compress_filter++'"}') //转为Table
+			}
+			
+			if( string.startWith(edit_compress_output,"{") and string.endWith(edit_compress_output,"}") ){
+				edit_compress_output_set = eval(edit_compress_output) //转为Table
+			} else {
+				edit_compress_output_set = eval('{"'++edit_compress_output++'"}') //转为Table
+			}
+			
+			var combo_compress_flag = mainForm.combo_compress_flag.selIndex
+			for(n=1;table.count(edit_compress_dir_set);1){
+				edit_compress_dir = ( edit_compress_dir_set[n] || edit_compress_dir ) //如果没找到新配置，则用之前的配置
+				edit_compress_filter = ( edit_compress_filter_set[n] || edit_compress_filter )
+				edit_compress_output = ( edit_compress_output_set[n] || edit_compress_output )
+				compress_generate( edit_compress_dir, edit_compress_filter, edit_compress_output, combo_compress_flag, true/*数组模式*/ )
+			}
+			
+		} else {
+			var combo_compress_flag = mainForm.combo_compress_flag.selIndex
+			compress_generate( edit_compress_dir, edit_compress_filter, edit_compress_output, combo_compress_flag )
+		}
+	}
+
+	if(mainForm.chkbox_poll_generate.checked){ //轮循生成合并所有项目
+		for(i=1; mainForm.combo_compress_config.count; 1){
+			mainForm.combo_compress_config.selIndex = i
+			comboCompressConfigChange() //刷新配置
+			call_compress_generate()
+		}
+	} else {
+		call_compress_generate()
+	}
+}
+

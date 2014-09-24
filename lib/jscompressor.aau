@@ -71,7 +71,7 @@ shrinksafe_pack = function(purifylist){
 mergeCodeFile = function( filetype ){
 	var compress_content = "" //保存压缩成单文件后的最终内容
 	
-	if( global.mainForm.cbox_compress_flag.selIndex==1 ){ //「忽略」操作，不用管顺序
+	if( global.mainForm.combo_compress_flag.selIndex==1 ){ //「忽略」操作，不用管顺序
 		fsys.enum( swapfolder++"/codepack/", tostring("*."++filetype),
 			function(dir,filename,fullpath,findData){ 
 				if(filename){
@@ -80,7 +80,7 @@ mergeCodeFile = function( filetype ){
 			}
 		);
 	} else { //「包含」操作，需要按顺序合并
-		for(n,jsfile in (string.split(global.mainForm.edit_compress_filter.text,";"))){
+		for(n,jsfile in (string.split(global.mainForm.edit_compress_filter.text,"|"))){
 			if(string.trim(jsfile)==""){break} //空文件名（连续的分号）则跳过
 			compress_content ++= ( string.load(swapfolder++"/codepack/"++jsfile) ++ '\n')
 		}

@@ -3,12 +3,19 @@
 		compress_path = "D:\JTWO\JS";
 		output_script = "base.min.js";
 		filter_flag = "1"; // 1忽略; 2包含
-		filter_file = "nil.js;none.js;null.js";
+		filter_file = "nil.js|none.js|null.js";
 	};
 	救救那宠物 = {
 		compress_path = "E:\DEVELOP";
 		output_script = "E:\flash.css";
 		filter_flag = "2"; // 1忽略; 2包含
-		filter_file = "main.css;base.css;build.css";
+		filter_file = "main.css|base.css|build.css";
+	};
+	千万小游戏 = {
+		compress_path = {"D:\GAME1";"D:\GAME2";"E:\APPLE3";"F:\COLOR4"};
+		output_script = {"D\GAME\G1.js";"D\GAME\G2.js";};
+		filter_flag = "1"; // 1忽略; 2包含
+		filter_file = {"not.js|other.js";[3]="etc.js|sundry.js"};
 	};
 }
+
