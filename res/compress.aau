@@ -43,8 +43,8 @@ compress_generate = function(edit_compress_dir,edit_compress_filter,edit_compres
 	
 	fsys.createDir(swapfolder++"/codepack",true) //删除并重建压缩JS、CSS的保存目录
 	
-	var filterlist = string.split(edit_compress_filter,"|") //存放所有的要被忽略or包含的文件全名
-	for(n,filename in filterlist){
+	var filterlist = {} //存放所有的要被忽略or包含的文件全名
+	for(n,filename in (string.split(edit_compress_filter,"|"))){
 		filterlist[filename] = true //用于之后判断文件是否在过滤列表中
 	}
 	
@@ -58,14 +58,24 @@ compress_generate = function(edit_compress_dir,edit_compress_filter,edit_compres
 			}
 		);
 	} else { //其他是包含
+		var invalid_list = table.delegate(filterlist) //记录不存在的文件
 		fsys.enum( tostring(edit_compress_dir), tostring("*."++filetype),
 			function(dir,filename,fullpath,findData){
 				if(filename and filterlist[filename] == true){ //这里决定是包含文件
 					table.push(purifylist, fullpath)
+					invalid_list[filename] = null //忽略存在的文件
 					//fsys.copy(fullpath,swapfolder++"/codepack/")
 				}
 			}
 		);
+		if( table.count(invalid_list) > 0 ){
+			var invalid_file = ""
+			for(fname,fvalue in invalid_list){
+				invalid_file = string.concat(invalid_file, '\n'+fname)
+			}
+			mainForm.msgbox("以下文件不存在："+invalid_file)
+			return ; 
+		}
 	}
 	
 	var compress_content = "" //保存压缩成单文件后的最终内容
