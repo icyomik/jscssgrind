@@ -1,41 +1,41 @@
-import win.ui;
+ï»¿import win.ui;
 import fsys;
 import fsys.dlg;
 import process;
 /*DSG{{*/
-mainForm = ..win.form(text="¼òµ¥µÄJS/CSSÑ¹ËõÆ÷";right=567;bottom=431;border="dialog frame";max=false)
+mainForm = ..win.form(text="ç®€å•çš„JS/CSSå‹ç¼©å™¨";right=567;bottom=431;border="dialog frame";max=false)
 mainForm.add(
-btn_compress_dir={cls="button";text="Ñ¹ËõÂ·¾¶¡­";left=448;top=120;right=544;bottom=152;font=LOGFONT( name='Î¢ÈíÑÅºÚ';h=-16 );z=4};
-btn_compress_filter={cls="button";text="Ìí¼ÓÎÄ¼ş¡­";left=448;top=248;right=544;bottom=280;font=LOGFONT( name='Î¢ÈíÑÅºÚ';h=-16 );z=5};
-btn_compress_generate={cls="button";text="Éú³ÉºÏ²¢";left=448;top=336;right=544;bottom=408;font=LOGFONT( name='Î¢ÈíÑÅºÚ';h=-16 );z=8};
-btn_filter_dir={cls="button";text="Â·¾¶";left=320;top=32;right=368;bottom=64;font=LOGFONT( name='Î¢ÈíÑÅºÚ';h=-16 );z=10};
-btn_filter_postfix={cls="button";text="Éú³É¹ıÂË";left=448;top=32;right=544;bottom=64;font=LOGFONT( name='Î¢ÈíÑÅºÚ';h=-16 );z=12};
-chkbox_poll_generate={cls="checkbox";text="ÂÖÑ¯´¦Àí";left=456;top=296;right=536;bottom=320;font=LOGFONT( name='Î¢ÈíÑÅºÚ';h=-14 );z=16};
-combo_compress_config={cls="combobox";left=304;top=384;right=432;bottom=408;edge=1;font=LOGFONT( name='Ó×Ô²';h=-16 );items={};mode="dropdown";z=14};
-combo_compress_flag={cls="combobox";left=448;top=192;right=544;bottom=212;edge=1;font=LOGFONT( name='Î¢ÈíÑÅºÚ';h=-16 );items={"ºöÂÔ×ó±ß";"°üº¬×ó±ß"};mode="dropdownlist";z=13};
-edit_compress_dir={cls="edit";left=24;top=120;right=432;bottom=152;align="center";autohscroll=false;autovscroll=false;edge=1;font=LOGFONT( name='Î¢ÈíÑÅºÚ';h=-14 );hidesel=1;z=3};
-edit_compress_filter={cls="edit";left=24;top=168;right=432;bottom=320;align="center";autohscroll=false;edge=1;font=LOGFONT( name='Î¢ÈíÑÅºÚ';h=-14 );hidesel=1;multiline=1;vscroll=1;z=6};
-edit_compress_output={cls="edit";text="guessing.css";left=24;top=336;right=432;bottom=368;align="center";autohscroll=false;autovscroll=false;edge=1;font=LOGFONT( name='Î¢ÈíÑÅºÚ';h=-14 );hidesel=1;z=7};
-edit_filter_dir={cls="edit";left=24;top=32;right=312;bottom=64;align="center";autohscroll=false;autovscroll=false;edge=1;font=LOGFONT( name='Î¢ÈíÑÅºÚ';h=-14 );hidesel=1;z=9};
-edit_filter_postfix={cls="edit";text="*.png";left=376;top=32;right=432;bottom=64;align="center";autohscroll=false;autovscroll=false;edge=1;font=LOGFONT( name='Î¢ÈíÑÅºÚ';h=-16 );hidesel=1;z=11};
-gb_compress={cls="groupbox";text="Ñ¹ËõÄ¿Â¼ÏÂµÄJS/CSS²¢ºÏ²¢Îªµ¥ÎÄ¼ş";left=8;top=88;right=560;bottom=424;edge=1;font=LOGFONT( name='Î¢ÈíÑÅºÚ';h=-14 );z=1};
-gb_filter={cls="groupbox";text="ÏÔÊ¾Ä¿Â¼ÏÂÄ³ÀàĞÍµÄÎÄ¼şÁĞ±í";left=8;top=8;right=560;bottom=80;edge=1;font=LOGFONT( name='Î¢ÈíÑÅºÚ';h=-14 );z=2};
-static={cls="static";text="ÅäÖÃÎÄ¼ş£ºconfig.txt£»Ñ¡ÔñÏîÄ¿£º";left=24;top=384;right=296;bottom=416;align="center";font=LOGFONT( name='Î¢ÈíÑÅºÚ';h=-16 );transparent=1;z=15}
+btn_compress_dir={cls="button";text="å‹ç¼©è·¯å¾„â€¦";left=448;top=120;right=544;bottom=152;font=LOGFONT( name='å¾®è½¯é›…é»‘';h=-16 );z=4};
+btn_compress_filter={cls="button";text="æ·»åŠ æ–‡ä»¶â€¦";left=448;top=248;right=544;bottom=280;font=LOGFONT( name='å¾®è½¯é›…é»‘';h=-16 );z=5};
+btn_compress_generate={cls="button";text="ç”Ÿæˆåˆå¹¶";left=448;top=336;right=544;bottom=408;font=LOGFONT( name='å¾®è½¯é›…é»‘';h=-16 );z=8};
+btn_filter_dir={cls="button";text="è·¯å¾„";left=320;top=32;right=368;bottom=64;font=LOGFONT( name='å¾®è½¯é›…é»‘';h=-16 );z=10};
+btn_filter_postfix={cls="button";text="ç”Ÿæˆè¿‡æ»¤";left=448;top=32;right=544;bottom=64;font=LOGFONT( name='å¾®è½¯é›…é»‘';h=-16 );z=12};
+chkbox_poll_generate={cls="checkbox";text="è½®è¯¢å¤„ç†";left=456;top=296;right=536;bottom=320;font=LOGFONT( name='å¾®è½¯é›…é»‘';h=-14 );z=16};
+combo_compress_config={cls="combobox";left=304;top=384;right=432;bottom=408;edge=1;font=LOGFONT( name='å¹¼åœ†';h=-16 );items={};mode="dropdown";z=14};
+combo_compress_flag={cls="combobox";left=448;top=192;right=544;bottom=212;edge=1;font=LOGFONT( name='å¾®è½¯é›…é»‘';h=-16 );items={"å¿½ç•¥å·¦è¾¹";"åŒ…å«å·¦è¾¹"};mode="dropdownlist";z=13};
+edit_compress_dir={cls="edit";left=24;top=120;right=432;bottom=152;align="center";autohscroll=false;autovscroll=false;edge=1;font=LOGFONT( name='å¾®è½¯é›…é»‘';h=-14 );hidesel=1;z=3};
+edit_compress_filter={cls="edit";left=24;top=168;right=432;bottom=320;align="center";autohscroll=false;edge=1;font=LOGFONT( name='å¾®è½¯é›…é»‘';h=-14 );hidesel=1;multiline=1;vscroll=1;z=6};
+edit_compress_output={cls="edit";text="guessing.css";left=24;top=336;right=432;bottom=368;align="center";autohscroll=false;autovscroll=false;edge=1;font=LOGFONT( name='å¾®è½¯é›…é»‘';h=-14 );hidesel=1;z=7};
+edit_filter_dir={cls="edit";left=24;top=32;right=312;bottom=64;align="center";autohscroll=false;autovscroll=false;edge=1;font=LOGFONT( name='å¾®è½¯é›…é»‘';h=-14 );hidesel=1;z=9};
+edit_filter_postfix={cls="edit";text="*.png";left=376;top=32;right=432;bottom=64;align="center";autohscroll=false;autovscroll=false;edge=1;font=LOGFONT( name='å¾®è½¯é›…é»‘';h=-16 );hidesel=1;z=11};
+gb_compress={cls="groupbox";text="å‹ç¼©ç›®å½•ä¸‹çš„JS/CSSå¹¶åˆå¹¶ä¸ºå•æ–‡ä»¶";left=8;top=88;right=560;bottom=424;edge=1;font=LOGFONT( name='å¾®è½¯é›…é»‘';h=-14 );z=1};
+gb_filter={cls="groupbox";text="æ˜¾ç¤ºç›®å½•ä¸‹æŸç±»å‹çš„æ–‡ä»¶åˆ—è¡¨";left=8;top=8;right=560;bottom=80;edge=1;font=LOGFONT( name='å¾®è½¯é›…é»‘';h=-14 );z=2};
+static={cls="static";text="é…ç½®æ–‡ä»¶ï¼šconfig.txtï¼›é€‰æ‹©é¡¹ç›®ï¼š";left=24;top=384;right=296;bottom=416;align="center";font=LOGFONT( name='å¾®è½¯é›…é»‘';h=-16 );transparent=1;z=15}
 )
 /*}}*/
 
-//½¨Á¢Í¬ÃûÄ¿Â¼£¬ÓÃÓÚ±£´æÅäÖÃ¡¢Ñ¹ËõÎÄ¼şµÈ
+//å»ºç«‹åŒåç›®å½•ï¼Œç”¨äºä¿å­˜é…ç½®ã€å‹ç¼©æ–‡ä»¶ç­‰
 global.swapfolder = string.replace(io._exepath,"\.\w*$","")
 if not( fsys.isDir(swapfolder) ){ fsys.createDir(swapfolder,true) }
 
-//Éú³ÉÅäÖÃÎÄ¼ş
+//ç”Ÿæˆé…ç½®æ–‡ä»¶
 if not(io.exist(swapfolder++"\config.txt")){
 	string.save(swapfolder++"\config.txt", string.load("\res\config.txt"))
 }
 
-//³õÊ¼»¯ÅäÖÃÎÄ¼ş
+//åˆå§‹åŒ–é…ç½®æ–‡ä»¶
 compress_config = eval( string.load(swapfolder++"\config.txt") )
-mainForm.combo_compress_config.items = (function(){x={};for(k,v in compress_config){table.push(x,k)};table.sort(x);return x})() //È¡ÅäÖÃÃû³Æ
+mainForm.combo_compress_config.items = (function(){x={};for(k,v in compress_config){table.push(x,k)};table.sort(x);return x})() //å–é…ç½®åç§°
 comboCompressConfigChange = function(){
 	mainForm.combo_compress_config.selIndex := 1
 	var cfgname = mainForm.combo_compress_config.selText;
@@ -52,16 +52,16 @@ comboCompressConfigChange = function(){
 	mainForm.edit_compress_filter.text = (type(tmptext)=="table"?table.tostring(tmptext):tmptext);
 }
 mainForm.combo_compress_config.oncommand = function(id,event){
-	if(event==0x1/*_CBN_SELCHANGE*/){ comboCompressConfigChange() } //Ë¢ĞÂÅäÖÃ
+	if(event==0x1/*_CBN_SELCHANGE*/){ comboCompressConfigChange() } //åˆ·æ–°é…ç½®
 }
 
-import jscompressor; //JSÑ¹Ëõ¿â
-import csscompressor; //CSSÑ¹Ëõ¿â
-loadcode("/res/filter.aau")() //¹ıÂËÎÄ¼şµÄ´úÂë
-loadcode("/res/compress.aau")() //Ñ¹ËõÎÄ¼şµÄ´úÂë
+import jscompressor; //JSå‹ç¼©åº“
+import csscompressor; //CSSå‹ç¼©åº“
+loadcode("/res/filter.aau")() //è¿‡æ»¤æ–‡ä»¶çš„ä»£ç 
+loadcode("/res/compress.aau")() //å‹ç¼©æ–‡ä»¶çš„ä»£ç 
 
-//³ÌĞò¿Ø¼şÅäÖÃ£¨ÉÏ´ÎÍË³öÊ±µÄÉèÖÃ£©
-mainForm.combo_compress_flag.selIndex = 1 // 1ºöÂÔ; 2°üº¬
+//ç¨‹åºæ§ä»¶é…ç½®ï¼ˆä¸Šæ¬¡é€€å‡ºæ—¶çš„è®¾ç½®ï¼‰
+mainForm.combo_compress_flag.selIndex = 1 // 1å¿½ç•¥; 2åŒ…å«
 import config;
 mainForm.bindConfig( config.widget,{
 	edit_filter_dir = "text";

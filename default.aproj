@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="gb2312"?>
-<project ver="2.8" name="JsCssGrind" libEmbed="true" icon="etc\@logo.ico" ProductName="" InternalName="" FileDescription="¼òµ¥µÄJS/CSSÑ¹ËõÆ÷" FileVersion="0.0.2.06" ProductVersion="0.0.2.06" CompanyName="" LegalCopyright="BY JTWO" ui="win" output="JsCssGrind.exe" publishDir="/Publish/">
+ï»¿<?xml version="1.0" encoding="utf-8"?>
+<project ver="10" name="JsCssGrind" libEmbed="true" icon="etc\@logo.ico" ProductName="" InternalName="" FileDescription="ç®€å•çš„JS/CSSåŽ‹ç¼©å™¨" FileVersion="0.0.2.06" ProductVersion="0.0.2.06" CompanyName="" LegalCopyright="BY JTWO" ui="win" output="JsCssGrind.exe" publishDir="/Publish/" dstrip="false">
 	<file name="main.aau" path="main.aau"/>
-	<folder name="×ÊÔ´ÎÄ¼þ" path="res" embed="true">
+	<folder name="èµ„æºæ–‡ä»¶" path="res" embed="true">
 		<file name="shrinksafe.jar" path="res\shrinksafe.jar" comment="res\shrinksafe.jar"/>
 		<file name="jsmin.exe" path="res\jsmin.exe" comment="res\jsmin.exe"/>
 		<file name="filter.aau" path="res\filter.aau" comment="res\filter.aau"/>
