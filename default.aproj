@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<project ver="10" name="JsCssGrind" libEmbed="true" icon="etc\@logo.ico" ProductName="" InternalName="" FileDescription="简单的JS/CSS压缩器" FileVersion="0.0.2.06" ProductVersion="0.0.2.06" CompanyName="" LegalCopyright="BY JTWO" ui="win" output="JsCssGrind.exe" publishDir="/Publish/" dstrip="false">
+<project ver="10" name="JsCssGrind" libEmbed="true" icon="etc\@logo.ico" ProductName="" InternalName="" FileDescription="简单的JS/CSS压缩器" FileVersion="0.0.2.07" ProductVersion="0.0.2.07" CompanyName="" LegalCopyright="BY JTWO" ui="win" output="JsCssGrind.exe" publishDir="/Publish/" dstrip="false">
 	<file name="main.aau" path="main.aau"/>
 	<folder name="资源文件" path="res" embed="true">
 		<file name="shrinksafe.jar" path="res\shrinksafe.jar" comment="res\shrinksafe.jar"/>

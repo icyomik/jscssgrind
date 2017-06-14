@@ -1,38 +1,38 @@
-
-//´ò¿ªĞèÒª¹ıÂËÎÄ¼şµÄÂ·¾¶
+ï»¿
+//æ‰“å¼€éœ€è¦è¿‡æ»¤æ–‡ä»¶çš„è·¯å¾„
 mainForm.btn_filter_dir.oncommand = function(id,event){
 	mainForm.edit_filter_dir.text = fsys.dlg.opendir(tostring(mainForm.edit_filter_dir.text)) : mainForm.edit_filter_dir.text
 }
 
-//ÏÔÊ¾¹ıÂËµÃµ½µÄÄÚÈİ
+//æ˜¾ç¤ºè¿‡æ»¤å¾—åˆ°çš„å†…å®¹
 mainForm.btn_filter_postfix.oncommand = function(id,event){
 	if( !fsys.isDir(mainForm.edit_filter_dir.text) ){
-		mainForm.msgbox("Ã»ÓĞ·¢ÏÖÓĞĞ§Â·¾¶£¡")
+		mainForm.msgbox("æ²¡æœ‰å‘ç°æœ‰æ•ˆè·¯å¾„ï¼")
 		return ; 
 	}
 	
-	var filelist_tbl = {} //±£´æ¹ıÂËÎÄ¼ş
+	var filelist_tbl = {} //ä¿å­˜è¿‡æ»¤æ–‡ä»¶
 	fsys.enum( tostring(mainForm.edit_filter_dir.text), tostring(mainForm.edit_filter_postfix.text),
 		function(dir,filename,fullpath,findData){ 
 			if(filename){ 
-           		//io.print("·¢ÏÖÎÄ¼ş£º"+filename,"ÍêÕûÂ·¾¶£º"+fullpath)
+           		//io.print("å‘ç°æ–‡ä»¶ï¼š"+filename,"å®Œæ•´è·¯å¾„ï¼š"+fullpath)
            		table.push(filelist_tbl, fullpath)
 			}
 		} 
-		,true /*Èç¹û´Ë²ÎÊıÎªfalseÔòºöÂÔ×ÓÄ¿Â¼*/
+		,true /*å¦‚æœæ­¤å‚æ•°ä¸ºfalseåˆ™å¿½ç•¥å­ç›®å½•*/
 	);
 	
 	if not(#filelist_tbl[1]){
-		mainForm.msgbox("Ã»ÓĞ¹ıÂËµ½¸Ãºó×ºµÄÎÄ¼ş!")
-		return ; //Ã»ÓĞ¹ıÂËµ½ÎÄ¼ş
+		mainForm.msgbox("æ²¡æœ‰è¿‡æ»¤åˆ°è¯¥åç¼€çš„æ–‡ä»¶!")
+		return ; //æ²¡æœ‰è¿‡æ»¤åˆ°æ–‡ä»¶
 	}
 	
-	var filelist_dir = tostring(io.splitpath(mainForm.edit_filter_dir.text).dir) //¹ıÂËµÄÄ¿Â¼
+	var filelist_dir = tostring(io.splitpath(mainForm.edit_filter_dir.text).dir) //è¿‡æ»¤çš„ç›®å½•
 	var filelist_str = string.join(filelist_tbl, "','")
 	filelist_str = string.replace(filelist_str,"@"++filelist_dir,"/")
-	filelist_str = "['" ++ string.replace(filelist_str,"@\","/") ++ "']" //×îÖÕµÄÁĞ±í
+	filelist_str = "['" ++ string.replace(filelist_str,"@\","/") ++ "']" //æœ€ç»ˆçš„åˆ—è¡¨
 	
-	string.save(swapfolder ++ "/filelist.txt", filelist_str) //±£´æÁĞ±í
-	sleep(1) //µÈ´ıÉÏÃæµÄÎÄ¼şĞ´ÈëÍê³É
-	process.execute(swapfolder ++ "/filelist.txt") //´ò¿ªÁĞ±í
+	string.save(swapfolder ++ "/filelist.txt", filelist_str) //ä¿å­˜åˆ—è¡¨
+	sleep(1) //ç­‰å¾…ä¸Šé¢çš„æ–‡ä»¶å†™å…¥å®Œæˆ
+	process.execute(swapfolder ++ "/filelist.txt") //æ‰“å¼€åˆ—è¡¨
 }

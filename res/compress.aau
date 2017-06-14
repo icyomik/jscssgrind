@@ -1,69 +1,69 @@
-
-//´ò¿ªĞèÒªÑ¹ËõµÄÎÄ¼şµÄÂ·¾¶
+ï»¿
+//æ‰“å¼€éœ€è¦å‹ç¼©çš„æ–‡ä»¶çš„è·¯å¾„
 mainForm.btn_compress_dir.oncommand = function(id,event){
 	mainForm.edit_compress_dir.text = fsys.dlg.opendir(tostring(mainForm.edit_compress_dir.text)) : mainForm.edit_compress_dir.text
 }
 
-//Ìí¼ÓĞèÒªºöÂÔor°üº¬µÄÎÄ¼ş
+//æ·»åŠ éœ€è¦å¿½ç•¥oråŒ…å«çš„æ–‡ä»¶
 mainForm.btn_compress_filter.oncommand = function(id,event){
 	var filetype = string.replace(io.splitpath(mainForm.edit_compress_output.text).ext,"^\.","")
 	if("js" != filetype and "css" != filetype){
-		mainForm.msgbox("²»±»Ö§³ÖµÄÄ¿±êÎÄ¼şÀàĞÍ£º"++tostring(filetype)++'\n'++"ÇëÈ·ÈÏºó×º.js/.cssÊÇÉú³ÉÄ¿±ê£¡")
+		mainForm.msgbox("ä¸è¢«æ”¯æŒçš„ç›®æ ‡æ–‡ä»¶ç±»å‹ï¼š"++tostring(filetype)++'\n'++"è¯·ç¡®è®¤åç¼€.js/.cssæ˜¯ç”Ÿæˆç›®æ ‡ï¼")
 		return ; 
 	}
 	
-	var filelist = fsys.dlg.openEx("Ìí¼Ó[ "++filetype++" ]ÎÄ¼ş|*."++filetype++"|",,tostring(mainForm.edit_compress_dir.text))
+	var filelist = fsys.dlg.openEx("æ·»åŠ [ "++filetype++" ]æ–‡ä»¶|*."++filetype++"|",,tostring(mainForm.edit_compress_dir.text))
 	if(!filelist){
-		mainForm.edit_compress_filter.text = string.trim(mainForm.edit_compress_filter.text) //Ë³±ãÇåµô¿Õ¸ñ
-		return ; //Ã»ÓĞÑ¡ÖĞÈÎºÎÎÄ¼ş
+		mainForm.edit_compress_filter.text = string.trim(mainForm.edit_compress_filter.text) //é¡ºä¾¿æ¸…æ‰ç©ºæ ¼
+		return ; //æ²¡æœ‰é€‰ä¸­ä»»ä½•æ–‡ä»¶
 	}
 	
 	for(n,filefullpath in filelist){
-		filelist[n] = io.splitpath(filefullpath).file //½ö±£ÁôÎÄ¼şÈ«Ãû
+		filelist[n] = io.splitpath(filefullpath).file //ä»…ä¿ç•™æ–‡ä»¶å…¨å
 	}
 	
-	if(#mainForm.edit_compress_filter.text){ //±£ÁôÔ­ÓĞµÄÎÄ¼şÁĞ±í
+	if(#mainForm.edit_compress_filter.text){ //ä¿ç•™åŸæœ‰çš„æ–‡ä»¶åˆ—è¡¨
 		mainForm.edit_compress_filter.text ++= ("|" ++ string.join(filelist, "|"))
 	} else {
 		mainForm.edit_compress_filter.text = string.join(filelist, "|")
 	}
 }
 
-//Ñ¹ËõÎÄ¼şµÄÖ÷º¯Êı
+//å‹ç¼©æ–‡ä»¶çš„ä¸»å‡½æ•°
 compress_generate = function(edit_compress_dir,edit_compress_filter,edit_compress_output,combo_compress_flag,isArrayConfig=false){
 	var filetype = string.replace(io.splitpath(edit_compress_output).ext,"^\.","")
 	if("js" != filetype and "css" != filetype){
-		mainForm.msgbox("²»±»Ö§³ÖµÄÄ¿±êÎÄ¼şÀàĞÍ£º"++tostring(filetype)++'\n'++"ÇëÈ·ÈÏºó×º.js/.cssÊÇÉú³ÉÄ¿±ê£¡")
+		mainForm.msgbox("ä¸è¢«æ”¯æŒçš„ç›®æ ‡æ–‡ä»¶ç±»å‹ï¼š"++tostring(filetype)++'\n'++"è¯·ç¡®è®¤åç¼€.js/.cssæ˜¯ç”Ÿæˆç›®æ ‡ï¼")
 		return ; 
 	}
 	if( !fsys.isDir(edit_compress_dir) ){
-		mainForm.msgbox('Ã»ÓĞ·¢ÏÖÓĞĞ§Â·¾¶£º\n'++edit_compress_dir)
+		mainForm.msgbox('æ²¡æœ‰å‘ç°æœ‰æ•ˆè·¯å¾„ï¼š\n'++edit_compress_dir)
 		return ; 
 	}
 	
-	fsys.createDir(swapfolder++"/codepack",true) //É¾³ı²¢ÖØ½¨Ñ¹ËõJS¡¢CSSµÄ±£´æÄ¿Â¼
+	fsys.createDir(swapfolder++"/codepack",true) //åˆ é™¤å¹¶é‡å»ºå‹ç¼©JSã€CSSçš„ä¿å­˜ç›®å½•
 	
-	var filterlist = {} //´æ·ÅËùÓĞµÄÒª±»ºöÂÔor°üº¬µÄÎÄ¼şÈ«Ãû
+	var filterlist = {} //å­˜æ”¾æ‰€æœ‰çš„è¦è¢«å¿½ç•¥oråŒ…å«çš„æ–‡ä»¶å…¨å
 	for(n,filename in (string.split(edit_compress_filter,"|"))){
-		filterlist[filename] = true //ÓÃÓÚÖ®ºóÅĞ¶ÏÎÄ¼şÊÇ·ñÔÚ¹ıÂËÁĞ±íÖĞ
+		filterlist[filename] = true //ç”¨äºä¹‹ååˆ¤æ–­æ–‡ä»¶æ˜¯å¦åœ¨è¿‡æ»¤åˆ—è¡¨ä¸­
 	}
 	
-	var purifylist = {} //±£´æĞèÒªÑ¹Ëõ¾»»¯µÄÎÄ¼şÁĞ±í
-	if(combo_compress_flag == 1){ //Ä¬ÈÏÊÇºöÂÔ
+	var purifylist = {} //ä¿å­˜éœ€è¦å‹ç¼©å‡€åŒ–çš„æ–‡ä»¶åˆ—è¡¨
+	if(combo_compress_flag == 1){ //é»˜è®¤æ˜¯å¿½ç•¥
 		fsys.enum( tostring(edit_compress_dir), tostring("*."++filetype),
 			function(dir,filename,fullpath,findData){
-				if(filename and filterlist[filename] != true){ //ÕâÀï¾ö¶¨ÊÇºöÂÔÎÄ¼ş
+				if(filename and filterlist[filename] != true){ //è¿™é‡Œå†³å®šæ˜¯å¿½ç•¥æ–‡ä»¶
 					table.push(purifylist, fullpath)
 				}
 			}
 		);
-	} else { //ÆäËûÊÇ°üº¬
-		var invalid_list = table.delegate(filterlist) //¼ÇÂ¼²»´æÔÚµÄÎÄ¼ş
+	} else { //å…¶ä»–æ˜¯åŒ…å«
+		var invalid_list = table.delegate(filterlist) //è®°å½•ä¸å­˜åœ¨çš„æ–‡ä»¶
 		fsys.enum( tostring(edit_compress_dir), tostring("*."++filetype),
 			function(dir,filename,fullpath,findData){
-				if(filename and filterlist[filename] == true){ //ÕâÀï¾ö¶¨ÊÇ°üº¬ÎÄ¼ş
+				if(filename and filterlist[filename] == true){ //è¿™é‡Œå†³å®šæ˜¯åŒ…å«æ–‡ä»¶
 					table.push(purifylist, fullpath)
-					invalid_list[filename] = null //ºöÂÔ´æÔÚµÄÎÄ¼ş
+					invalid_list[filename] = null //å¿½ç•¥å­˜åœ¨çš„æ–‡ä»¶
 					//fsys.copy(fullpath,swapfolder++"/codepack/")
 				}
 			}
@@ -73,47 +73,47 @@ compress_generate = function(edit_compress_dir,edit_compress_filter,edit_compres
 			for(fname,fvalue in invalid_list){
 				invalid_file = string.concat(invalid_file, '\n'+fname)
 			}
-			mainForm.msgbox("ÒÔÏÂÎÄ¼ş²»´æÔÚ£º"+invalid_file)
+			mainForm.msgbox("ä»¥ä¸‹æ–‡ä»¶ä¸å­˜åœ¨ï¼š"+invalid_file)
 			return ; 
 		}
 	}
 	
-	var compress_content = "" //±£´æÑ¹Ëõ³Éµ¥ÎÄ¼şºóµÄ×îÖÕÄÚÈİ
+	var compress_content = "" //ä¿å­˜å‹ç¼©æˆå•æ–‡ä»¶åçš„æœ€ç»ˆå†…å®¹
 	if("css" == filetype){
 		compress_content = csscompressor.pack(purifylist)
 	}elseif("js" == filetype){
 		compress_content = jscompressor.pack(purifylist)
 	} else {
-		mainForm.msgbox("²»±»Ö§³ÖµÄÄ¿±êÎÄ¼şÀàĞÍ£º"++tostring(filetype)++'\n'++"ÇëÈ·ÈÏºó×º.js/.cssÊÇÉú³ÉÄ¿±ê£¡")
+		mainForm.msgbox("ä¸è¢«æ”¯æŒçš„ç›®æ ‡æ–‡ä»¶ç±»å‹ï¼š"++tostring(filetype)++'\n'++"è¯·ç¡®è®¤åç¼€.js/.cssæ˜¯ç”Ÿæˆç›®æ ‡ï¼")
 		return ; 
 	}
 	
-	var save2path = ""; //Êä³öµÄ½Å±¾Â·¾¶
+	var save2path = ""; //è¾“å‡ºçš„è„šæœ¬è·¯å¾„
 	if( #io.splitpath(edit_compress_output).dir ){
 		save2path = tostring(edit_compress_output)
 	} else {
-		save2path = ..fsys.dlg.save(,,edit_compress_dir,,,edit_compress_output) //ÊÖ¶¯Ñ¡ÔñÂ·¾¶
-		if not(isArrayConfig){ mainForm.edit_compress_output.text = tostring(save2path) } //¼ÇÂ¼Ñ¡ÔñµÄÂ·¾¶£¬ÏÂ´ÎÖ±½ÓÊä³ö
+		save2path = ..fsys.dlg.save(,,edit_compress_dir,,,edit_compress_output) //æ‰‹åŠ¨é€‰æ‹©è·¯å¾„
+		if not(isArrayConfig){ mainForm.edit_compress_output.text = tostring(save2path) } //è®°å½•é€‰æ‹©çš„è·¯å¾„ï¼Œä¸‹æ¬¡ç›´æ¥è¾“å‡º
 	}
 	if ( #save2path ) {
-		string.save(save2path,compress_content) //Ğ´ÈëÑ¹ËõºóµÄ´úÂë
-		//sleep(1); process.execute( save2path ) //´ò¿ªÑ¹ËõºóµÄÎÄ¼ş
+		string.save(save2path,compress_content) //å†™å…¥å‹ç¼©åçš„ä»£ç 
+		//sleep(1); process.execute( save2path ) //æ‰“å¼€å‹ç¼©åçš„æ–‡ä»¶
 		if(io.exist(swapfolder++"/uglifyjs.cmd") and "js"==filetype){
-			import win.path //ĞèÒªÓĞNodeJSºÍUglifyJS»·¾³
+			import win.path //éœ€è¦æœ‰NodeJSå’ŒUglifyJSç¯å¢ƒ
 			if(io.exist(save2path,6) and win.path.search("uglifyjs")){
 				io.open()
-				io.print('\n\t·¢ÏÖUglifyJSµÄ±¾µØµ÷ÓÃ½Ó¿Ú£¬ÕıÔÚÑ¹Ëõ»ìÏı...')
-				io.print('\t£¨Èç¹û½Ó¿Úµ÷ÓÃÍê³É£¬Ôò±¾´°¿Ú»á×Ô¶¯¹Ø±Õ£©\n')
-				sleep(0.5*1000) //µÈ´ıÎÄ¼şĞ´ÈëÍê³É
+				io.print('\n\tå‘ç°UglifyJSçš„æœ¬åœ°è°ƒç”¨æ¥å£ï¼Œæ­£åœ¨å‹ç¼©æ··æ·†...')
+				io.print('\tï¼ˆå¦‚æœæ¥å£è°ƒç”¨å®Œæˆï¼Œåˆ™æœ¬çª—å£ä¼šè‡ªåŠ¨å…³é—­ï¼‰\n')
+				sleep(0.5*1000) //ç­‰å¾…æ–‡ä»¶å†™å…¥å®Œæˆ
 				execute(string.join({"uglifyjs";save2path;"-m -o";save2path}, " "))
 				io.close()
 			}
 		}
 	}
 	
-	//¼ÇÂ¼µ±Ç°µÄÏîÄ¿ÅäÖÃ
+	//è®°å½•å½“å‰çš„é¡¹ç›®é…ç½®
 	if(0==#mainForm.combo_compress_config.text and not(isArrayConfig)){
-		mainForm.msgbox("Ã»ÓĞÏîÄ¿Ãû³Æ£¡ÅäÖÃ²»»á±£´æ£¡"); return ;
+		mainForm.msgbox("æ²¡æœ‰é¡¹ç›®åç§°ï¼é…ç½®ä¸ä¼šä¿å­˜ï¼"); return ;
 	} elseif(not(isArrayConfig)) {
 		compress_config[mainForm.combo_compress_config.text] = {
 			compress_path = edit_compress_dir;
@@ -122,38 +122,38 @@ compress_generate = function(edit_compress_dir,edit_compress_filter,edit_compres
 			filter_file = edit_compress_filter;
 		}
 		string.save(swapfolder++"\config.txt", table.tostring(compress_config))
-		mainForm.combo_compress_config.items = (function(){x={};for(k,v in compress_config){table.push(x,k)};table.sort(x);return x})() //È¡ÅäÖÃÃû³Æ
+		mainForm.combo_compress_config.items = (function(){x={};for(k,v in compress_config){table.push(x,k)};table.sort(x);return x})() //å–é…ç½®åç§°
 	}
 }
 
-//Ñ¹ËõÎÄ¼ş
+//å‹ç¼©æ–‡ä»¶
 mainForm.btn_compress_generate.oncommand = function(id,event){
-	var call_compress_generate = function(){ //µ÷ÓÃÉú³ÉºÏ²¢º¯Êı
+	var call_compress_generate = function(){ //è°ƒç”¨ç”Ÿæˆåˆå¹¶å‡½æ•°
 		var edit_compress_dir = string.trim(mainForm.edit_compress_dir.text)
 		var edit_compress_filter = string.trim(mainForm.edit_compress_filter.text)
 		var edit_compress_output = string.trim(mainForm.edit_compress_output.text)
 		
 		if( string.startWith(edit_compress_dir,"{") and string.endWith(edit_compress_dir,"}") ){
-			var edit_compress_dir_set = eval(edit_compress_dir) //×ªÎªTable
+			var edit_compress_dir_set = eval(edit_compress_dir) //è½¬ä¸ºTable
 			
 			if( string.startWith(edit_compress_filter,"{") and string.endWith(edit_compress_filter,"}") ){
-				edit_compress_filter_set = eval(edit_compress_filter) //×ªÎªTable
+				edit_compress_filter_set = eval(edit_compress_filter) //è½¬ä¸ºTable
 			} else {
-				edit_compress_filter_set = eval('{"'++edit_compress_filter++'"}') //×ªÎªTable
+				edit_compress_filter_set = eval('{"'++edit_compress_filter++'"}') //è½¬ä¸ºTable
 			}
 			
 			if( string.startWith(edit_compress_output,"{") and string.endWith(edit_compress_output,"}") ){
-				edit_compress_output_set = eval(edit_compress_output) //×ªÎªTable
+				edit_compress_output_set = eval(edit_compress_output) //è½¬ä¸ºTable
 			} else {
-				edit_compress_output_set = eval('{"'++edit_compress_output++'"}') //×ªÎªTable
+				edit_compress_output_set = eval('{"'++edit_compress_output++'"}') //è½¬ä¸ºTable
 			}
 			
 			var combo_compress_flag = mainForm.combo_compress_flag.selIndex
 			for(n=1;table.count(edit_compress_dir_set);1){
-				edit_compress_dir = ( edit_compress_dir_set[n] || edit_compress_dir ) //Èç¹ûÃ»ÕÒµ½ĞÂÅäÖÃ£¬ÔòÓÃÖ®Ç°µÄÅäÖÃ
+				edit_compress_dir = ( edit_compress_dir_set[n] || edit_compress_dir ) //å¦‚æœæ²¡æ‰¾åˆ°æ–°é…ç½®ï¼Œåˆ™ç”¨ä¹‹å‰çš„é…ç½®
 				edit_compress_filter = ( edit_compress_filter_set[n] || edit_compress_filter )
 				edit_compress_output = ( edit_compress_output_set[n] || edit_compress_output )
-				compress_generate( edit_compress_dir, edit_compress_filter, edit_compress_output, combo_compress_flag, true/*Êı×éÄ£Ê½*/ )
+				compress_generate( edit_compress_dir, edit_compress_filter, edit_compress_output, combo_compress_flag, true/*æ•°ç»„æ¨¡å¼*/ )
 			}
 			
 		} else {
@@ -162,10 +162,10 @@ mainForm.btn_compress_generate.oncommand = function(id,event){
 		}
 	}
 
-	if(mainForm.chkbox_poll_generate.checked){ //ÂÖÑ­Éú³ÉºÏ²¢ËùÓĞÏîÄ¿
+	if(mainForm.chkbox_poll_generate.checked){ //è½®å¾ªç”Ÿæˆåˆå¹¶æ‰€æœ‰é¡¹ç›®
 		for(i=1; mainForm.combo_compress_config.count; 1){
 			mainForm.combo_compress_config.selIndex = i
-			comboCompressConfigChange() //Ë¢ĞÂÅäÖÃ
+			comboCompressConfigChange() //åˆ·æ–°é…ç½®
 			call_compress_generate()
 		}
 	} else {
